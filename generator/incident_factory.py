@@ -2,7 +2,7 @@ import random
 import uuid
 import json
 import os
-from datetime import datetime
+from datetime import datetime, timezone
 
 TEMPLATES_DIR = os.path.join(os.path.dirname(__file__), 'templates')
 
@@ -20,9 +20,8 @@ def generate_phishing_incident():
     domains = ["malicious-site.biz", "click-here-now.net", "login-update.com"]
     target_users = ["alice@acme.corp", "bob@corp.local", "user123@domain.com"]
 
-    # Rellenamos los campos dinámicos
-    template["id"] = f"INC-{datetime.utcnow().strftime('%Y%m%d')}-{uuid.uuid4().hex[:6]}"
-    template["timestamp"] = datetime.utcnow().isoformat() + "Z"
+    template["id"] = f"INC-{datetime.now(timezone.utc).strftime('%Y%m%d')}-{uuid.uuid4().hex[:6]}"
+    template["timestamp"] = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
     template["source_ip"] = f"{random.randint(1, 255)}.{random.randint(1, 255)}.{random.randint(0, 255)}.{random.randint(0, 255)}"
     template["target_user"] = random.choice(target_users)
     template["subject"] = random.choice(subjects)
@@ -37,8 +36,8 @@ def generate_bruteforce_incident():
     endpoints = ["/login", "/auth", "/admin", "/api/auth"]
     target_users = ["bob@company.com", "carol@domain.net", "hr@acme.corp"]
 
-    template["id"] = f"INC-{datetime.utcnow().strftime('%Y%m%d')}-{uuid.uuid4().hex[:6]}"
-    template["timestamp"] = datetime.utcnow().isoformat() + "Z"
+    template["id"] = f"INC-{datetime.now(timezone.utc).strftime('%Y%m%d')}-{uuid.uuid4().hex[:6]}"
+    template["timestamp"] = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
     template["source_ip"] = f"{random.randint(1, 255)}.{random.randint(1, 255)}.{random.randint(0, 255)}.{random.randint(0, 255)}"
     template["target_user"] = random.choice(target_users)
     template["username_attempted"] = random.choice(usernames)
@@ -54,8 +53,8 @@ def generate_malware_incident():
     file_paths = [r"C:\Users\Public\winlogon.exe", r"/tmp/evil.sh", r"/usr/local/bin/update"]
     hosts = ["host01.internal", "hr-laptop-22", "dev-machine-07"]
 
-    template["id"] = f"INC-{datetime.utcnow().strftime('%Y%m%d')}-{uuid.uuid4().hex[:6]}"
-    template["timestamp"] = datetime.utcnow().isoformat() + "Z"
+    template["id"] = f"INC-{datetime.now(timezone.utc).strftime('%Y%m%d')}-{uuid.uuid4().hex[:6]}"
+    template["timestamp"] = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
     template["source_ip"] = f"{random.randint(1, 255)}.{random.randint(1, 255)}.{random.randint(0, 255)}.{random.randint(0, 255)}"
     template["affected_host"] = random.choice(hosts)
     template["malware_name"] = random.choice(malware_names)
@@ -80,8 +79,8 @@ def generate_ransomware_incident():
     ]
     infected_hosts = ["finance-srv01", "hr-laptop-09", "dev-ubuntu-22"]
 
-    template["id"] = f"INC-{datetime.utcnow().strftime('%Y%m%d')}-{uuid.uuid4().hex[:6]}"
-    template["timestamp"] = datetime.utcnow().isoformat() + "Z"
+    template["id"] = f"INC-{datetime.now(timezone.utc).strftime('%Y%m%d')}-{uuid.uuid4().hex[:6]}"
+    template["timestamp"] = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
     template["source_ip"] = f"{random.randint(1, 255)}.{random.randint(1, 255)}.{random.randint(0, 255)}.{random.randint(0, 255)}"
     template["infected_host"] = random.choice(infected_hosts)
     template["ransomware_family"] = random.choice(families)
@@ -99,13 +98,30 @@ def generate_data_exfiltration_incident():
     protocols = ["FTP", "HTTP", "HTTPS", "DNS", "SMB"]
     hosts = ["legal-srv01", "vpn-gateway", "secops-laptop", "rdp-win10-3"]
 
-    template["id"] = f"INC-{datetime.utcnow().strftime('%Y%m%d')}-{uuid.uuid4().hex[:6]}"
-    template["timestamp"] = datetime.utcnow().isoformat() + "Z"
+    template["id"] = f"INC-{datetime.now(timezone.utc).strftime('%Y%m%d')}-{uuid.uuid4().hex[:6]}"
+    template["timestamp"] = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
     template["source_ip"] = f"10.{random.randint(0, 255)}.{random.randint(0, 255)}.{random.randint(0, 255)}"
     template["source_host"] = random.choice(hosts)
     template["destination_ip"] = f"{random.randint(1, 255)}.{random.randint(1, 255)}.{random.randint(1, 255)}.{random.randint(1, 255)}"
     template["protocol"] = random.choice(protocols)
     template["data_type"] = random.choice(data_types)
     template["data_volume_mb"] = round(random.uniform(0.5, 250), 2)
+
+    return template
+
+def generate_command_and_control_incident():
+    template = load_template("command_and_control")
+
+    infected_hosts = ["host-dev01", "hr-win11", "vpn-compromised", "ws-corp-02"]
+    c2_domains = ["cnc.evilcorp.com", "command.darkweb.net", "c2panel.anonym.tld"]
+    protocols = ["HTTPS", "DNS", "HTTP", "TLS", "WebSocket"]
+
+    template["id"] = f"INC-{datetime.now(timezone.utc).strftime('%Y%m%d')}-{uuid.uuid4().hex[:6]}"
+    template["timestamp"] = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+    template["infected_host"] = random.choice(infected_hosts)
+    template["c2_ip"] = f"{random.randint(1, 255)}.{random.randint(0, 255)}.{random.randint(0, 255)}.{random.randint(1, 255)}"
+    template["c2_domain"] = random.choice(c2_domains)
+    template["protocol"] = random.choice(protocols)
+    template["beacon_interval_sec"] = random.choice([10, 30, 60, 300, 900])
 
     return template

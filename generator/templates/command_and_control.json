@@ -1,0 +1,12 @@
+{
+  "id": "",
+  "type": "command_and_control",
+  "timestamp": "",
+  "infected_host": "",
+  "c2_ip": "",
+  "c2_domain": "",
+  "protocol": "",
+  "beacon_interval_sec": 0,
+  "mitre_tactics": ["Command and Control"],
+  "mitre_techniques": ["T1071", "T1095"]
+}

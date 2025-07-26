@@ -4,7 +4,7 @@ import re
 import ipaddress
 
 def is_valid_iso8601(timestamp: str) -> bool:
-    pattern = r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?Z"
+    pattern = r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?(\+\d{2}:\d{2})?Z"
     return bool(re.fullmatch(pattern, timestamp))
 
 def is_valid_ip(ip: str) -> bool:
