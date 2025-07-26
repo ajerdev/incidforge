@@ -1,14 +1,7 @@
 import random
 import uuid
-import json
-import os
 from datetime import datetime, timezone
-
-TEMPLATES_DIR = os.path.join(os.path.dirname(__file__), 'templates')
-
-def load_template(name):
-    with open(os.path.join(TEMPLATES_DIR, f"{name}.json"), 'r') as f:
-        return json.load(f)
+from generator.utils import load_template
     
 def generate_phishing_incident():
     template = load_template("phishing")
