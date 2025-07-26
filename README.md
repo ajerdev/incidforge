@@ -92,16 +92,6 @@ incidforge/
 
 ---
 
-## 📚 Technologies Used
-
-- Python 3.9+
-- [Typer](https://typer.tiangolo.com/) / argparse
-- UUID, datetime, random
-- [stix2](https://pypi.org/project/stix2/) *(optional for STIX export)*
-- MITRE ATT&CK mappings
-
----
-
 ## 🧠 Design Philosophy
 
 **IncidForge** was built to provide SOC and SOAR teams with realistic, flexible, and reusable simulated data that mimics real-world incident patterns.  
@@ -127,4 +117,4 @@ This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) f
 
 ## 🧠 About the Author
 
-Made with ❤️ by [Adri Jerez](https://www.linkedin.com/in/adrianjjerez), cybersecurity engineer passionate about automation, threat detection, and realistic simulation tooling for blue teams.
+Made with ❤️ by [Adrián Jerez](https://www.linkedin.com/in/adrianjjerez), cybersecurity engineer passionate about automation, threat detection, and realistic simulation tooling for blue teams.
