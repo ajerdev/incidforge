@@ -6,7 +6,9 @@ from generator.incident_factory import (
     generate_bruteforce_incident,
     generate_malware_incident,
     generate_ransomware_incident,
-    generate_data_exfiltration_incident
+    generate_data_exfiltration_incident,
+    generate_command_and_control_incident,
+    generate_insider_threat_incident
 )
 
 app = typer.Typer()
@@ -32,6 +34,10 @@ def generate(
             incident = generate_ransomware_incident()
         elif type == "data_exfiltration":
             incident = generate_data_exfiltration_incident()
+        elif type == "command_and_control":
+            incident = generate_command_and_control_incident()
+        elif type == "insider_threat":
+            incident = generate_insider_threat_incident()
         else:
             print(f"[bold red]Incident type '{type}' not implemented yet.[/]")
             return

@@ -117,4 +117,4 @@ This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) f
 
 ## 🧠 About the Author
 
-Made with ❤️ by [Adrián Jerez](https://www.linkedin.com/in/adrianjjerez), cybersecurity engineer passionate about automation, threat detection, and realistic simulation tooling for blue teams.
+Made with ❤️ by [Adrián Jerez](https://www.linkedin.com/in/adrianjjerez), cybersecurity engineer passionate about automation, threat detection, and building tools that empower blue teams.

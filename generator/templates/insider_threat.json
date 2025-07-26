@@ -1,0 +1,12 @@
+{
+  "id": "",
+  "type": "insider_threat",
+  "timestamp": "",
+  "username": "",
+  "user_role": "",
+  "suspicious_action": "",
+  "target_resource": "",
+  "justification_provided": "",
+  "mitre_tactics": ["Credential Access", "Collection", "Exfiltration"],
+  "mitre_techniques": ["T1081", "T1078", "T1041"]
+}

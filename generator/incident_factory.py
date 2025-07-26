@@ -125,3 +125,32 @@ def generate_command_and_control_incident():
     template["beacon_interval_sec"] = random.choice([10, 30, 60, 300, 900])
 
     return template
+
+def generate_insider_threat_incident():
+    template = load_template("insider_threat")
+
+    usernames = ["jdoe", "hr-manager", "backup-admin", "it_support", "intern-23"]
+    roles = ["HR", "IT", "Finance", "Intern", "Developer"]
+    actions = [
+        "accessed payroll database out of hours",
+        "downloaded over 200 documents",
+        "accessed confidential project repo",
+        "disabled EDR agent",
+        "exported full mailbox to PST"
+    ]
+    resources = [
+        "payroll_db", "confidential_share", "vpn_logs", "employee_email", "source_code_repo"
+    ]
+    justifications = [
+        "needed for report", "requested by manager", "not specified", "temporary access", "unknown"
+    ]
+
+    template["id"] = f"INC-{datetime.now(timezone.utc).strftime('%Y%m%d')}-{uuid.uuid4().hex[:6]}"
+    template["timestamp"] = datetime.now(timezone.utc).isoformat()
+    template["username"] = random.choice(usernames)
+    template["user_role"] = random.choice(roles)
+    template["suspicious_action"] = random.choice(actions)
+    template["target_resource"] = random.choice(resources)
+    template["justification_provided"] = random.choice(justifications)
+
+    return template
