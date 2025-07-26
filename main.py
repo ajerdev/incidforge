@@ -1,7 +1,7 @@
 import typer
 import json
 from rich import print
-from generator.incident_factory import generate_phishing_incident
+from generator.incident_factory import generate_phishing_incident, generate_bruteforce_incident, generate_malware_incident, generate_ransomware_incident
 
 app = typer.Typer()
 
@@ -18,6 +18,12 @@ def generate(
     for _ in range(count):
         if type == "phishing":
             incident = generate_phishing_incident()
+        elif type == "bruteforce":
+            incident = generate_bruteforce_incident()
+        elif type == "malware":
+            incident = generate_malware_incident()
+        elif type == "ransomware":
+            incident = generate_ransomware_incident()
         else:
             print(f"[bold red]Incident type '{type}' not implemented yet.[/]")
             return

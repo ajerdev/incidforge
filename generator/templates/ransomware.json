@@ -1,0 +1,13 @@
+{
+  "id": "",
+  "type": "ransomware",
+  "timestamp": "",
+  "source_ip": "",
+  "infected_host": "",
+  "ransomware_family": "",
+  "encrypted_extensions": [],
+  "ransom_note_path": "",
+  "btc_wallet": "",
+  "mitre_tactics": ["Impact"],
+  "mitre_techniques": ["T1486"]
+}
