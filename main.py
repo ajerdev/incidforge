@@ -1,7 +1,13 @@
 import typer
 import json
 from rich import print
-from generator.incident_factory import generate_phishing_incident, generate_bruteforce_incident, generate_malware_incident, generate_ransomware_incident
+from generator.incident_factory import (
+    generate_phishing_incident,
+    generate_bruteforce_incident,
+    generate_malware_incident,
+    generate_ransomware_incident,
+    generate_data_exfiltration_incident
+)
 
 app = typer.Typer()
 
@@ -24,6 +30,8 @@ def generate(
             incident = generate_malware_incident()
         elif type == "ransomware":
             incident = generate_ransomware_incident()
+        elif type == "data_exfiltration":
+            incident = generate_data_exfiltration_incident()
         else:
             print(f"[bold red]Incident type '{type}' not implemented yet.[/]")
             return

@@ -88,5 +88,24 @@ def generate_ransomware_incident():
     template["encrypted_extensions"] = random.sample(extensions, k=2)
     template["ransom_note_path"] = random.choice(ransom_notes)
     template["btc_wallet"] = random.choice(btc_wallets)
+    
+
+    return template
+
+def generate_data_exfiltration_incident():
+    template = load_template("data_exfiltration")
+
+    data_types = ["PII", "credentials", "intellectual property", "HR records", "financial reports"]
+    protocols = ["FTP", "HTTP", "HTTPS", "DNS", "SMB"]
+    hosts = ["legal-srv01", "vpn-gateway", "secops-laptop", "rdp-win10-3"]
+
+    template["id"] = f"INC-{datetime.utcnow().strftime('%Y%m%d')}-{uuid.uuid4().hex[:6]}"
+    template["timestamp"] = datetime.utcnow().isoformat() + "Z"
+    template["source_ip"] = f"10.{random.randint(0, 255)}.{random.randint(0, 255)}.{random.randint(0, 255)}"
+    template["source_host"] = random.choice(hosts)
+    template["destination_ip"] = f"{random.randint(1, 255)}.{random.randint(1, 255)}.{random.randint(1, 255)}.{random.randint(1, 255)}"
+    template["protocol"] = random.choice(protocols)
+    template["data_type"] = random.choice(data_types)
+    template["data_volume_mb"] = round(random.uniform(0.5, 250), 2)
 
     return template
