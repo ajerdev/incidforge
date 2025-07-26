@@ -1,0 +1,11 @@
+{
+  "id": "",
+  "type": "phishing",
+  "timestamp": "",
+  "source_ip": "",
+  "target_user": "",
+  "subject": "",
+  "iocs": [],
+  "mitre_tactics": ["Initial Access"],
+  "mitre_techniques": ["T1566.001"]
+}

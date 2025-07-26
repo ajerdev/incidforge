@@ -1,0 +1,12 @@
+{
+  "id": "",
+  "type": "bruteforce",
+  "timestamp": "",
+  "source_ip": "",
+  "target_user": "",
+  "username_attempted": "",
+  "login_endpoint": "",
+  "attempt_count": 0,
+  "mitre_tactics": ["Credential Access"],
+  "mitre_techniques": ["T1110"]
+}
