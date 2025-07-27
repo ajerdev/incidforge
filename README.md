@@ -1,4 +1,4 @@
-# 🛠️ IncidForge – Fake Incident Generator for SOC & SOAR Testing
+# 🛠️ IncidForge – Synthetic Incident Generator for SOC & SOAR Testing
 
 **IncidForge** is a lightweight Python-based tool designed to simulate cybersecurity incidents for testing and validation of SOC pipelines, SIEM parsing, and SOAR automation workflows.
 
