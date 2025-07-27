@@ -1,0 +1,28 @@
+[
+  {
+    "type": "noise::login_success",
+    "description": "Benign login event from internal user",
+    "details": {
+      "user": "jsmith",
+      "host": "hr-laptop",
+      "resource": "vpn.acme.corp"
+    }
+  },
+  {
+    "type": "noise::ping",
+    "description": "ICMP ping to internal device",
+    "details": {
+      "source": "printer-01",
+      "destination": "10.10.20.12"
+    }
+  },
+  {
+    "type": "noise::http_200",
+    "description": "Successful HTTP request",
+    "details": {
+      "url": "/index.html",
+      "method": "GET",
+      "status": 200
+    }
+  }
+]

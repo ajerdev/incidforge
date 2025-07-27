@@ -1,6 +1,8 @@
 import typer
 import json
 from rich import print
+import random 
+
 from generator.incident_factory import (
     generate_phishing_incident,
     generate_bruteforce_incident,
@@ -11,12 +13,13 @@ from generator.incident_factory import (
     generate_insider_threat_incident,
     generate_port_scanning_incident,
     generate_web_exploit_incident,
-    generate_suspicious_powershell_incident
+    generate_suspicious_powershell_incident,
+    generate_noise_event
 )
 
-app = typer.Typer()
+# app = typer.Typer()
+# @app.command()
 
-@app.command()
 def generate(
     type: str = typer.Option("phishing", help="Type of incident to generate"),
     format: str = typer.Option("json", help="Output format"),
@@ -53,7 +56,13 @@ def generate(
 
         incidents.append(incident)
 
+    if noise:
+        noise_events = [generate_noise_event() for _ in range(random.randint(1, count))]
+        incidents.extend(noise_events)
+        random.shuffle(incidents)
+
     print(json.dumps(incidents, indent=2))
 
 if __name__ == "__main__":
-    app()
+    #app()
+    typer.run(generate)

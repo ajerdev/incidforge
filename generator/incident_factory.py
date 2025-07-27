@@ -2,7 +2,16 @@ import random
 import uuid
 from datetime import datetime, timezone
 from generator.utils import generate_incident_id, get_current_timestamp, generate_random_ip, generate_fake_hash, load_template
-    
+
+def generate_noise_event():
+    templates = load_template("noise")
+
+    template = random.choice(templates)
+    template["id"] = generate_incident_id()
+    template["timestamp"] = get_current_timestamp()
+    template["source_ip"] = generate_random_ip()
+    return template
+
 def generate_phishing_incident():
     template = load_template("phishing")
 
