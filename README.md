@@ -39,13 +39,13 @@ pip install -r requirements.txt
 
 ```bash
 # Generate 5 phishing incidents in JSON format:
-python main.py generate --type phishing --format json --count 5
+python main.py --type phishing --count 5
 
-# Generate a correlated campaign (brute force + phishing):
-python main.py generate --type campaign --correlated true --count 10
+# Generate 5 phishing incidents (output will be in JSON format by default — the --format flag is not required at this time)
+python main.py --type phishing --format json --count 7
 
 # Generate events with noise:
-python main.py generate --type malware --noise true --count 20
+python main.py --type malware --count 20 --noise
 ```
 
 ---
@@ -84,6 +84,7 @@ incidforge/
 ├── examples/                    # Sample generated datasets
 │
 ├── tests/                       # Unit tests for key modules
+│   └── test_factory.py          # Pytest testing for incident generation
 │
 ├── main.py                      # CLI interface
 ├── requirements.txt
