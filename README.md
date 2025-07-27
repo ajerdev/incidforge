@@ -8,7 +8,7 @@ Whether you're a blue team engineer, SOAR developer, or simply want to stress-te
 
 ## 📌 Features
 
-- 🔄 **Generate fake incidents** (phishing, brute force, malware, etc.)
+- 🔄 **Generate synthetic incidents** (phishing, brute force, malware, etc.)
 - 🧱 **Structured output** in JSON (future implementation of STIX 2.1 format)
 - 🎭 **Noise injection**: add decoy or irrelevant events
 - 💾 **Export results** to file with dynamic filenames (timestamped & labeled)
