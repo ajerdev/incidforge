@@ -64,13 +64,13 @@ pip install -r requirements.txt
 ## 🧪 Example Usage
 
 ```bash
-# Generate 5 phishing incidents in JSON format:
-python main.py --type phishing --count 5
+# Generate a phishing incident in JSON format:
+python main.py --type phishing
 
-# Generate 5 phishing incidents (output will be in JSON format by default — the --format flag is not required at this time)
+# Generate 7 phishing incidents (output will be in JSON format by default — the --format flag is not required at this time)
 python main.py --type phishing --format json --count 7
 
-# Generate events with noise:
+# Generate multiple events with noise:
 python main.py --type malware --count 20 --noise
 
 # Generate 3 brute force events and export to file
@@ -122,8 +122,9 @@ Below is an example of a mixed output containing both a simulated phishing incid
 incidforge/
 │
 ├── generator/
-│   ├── incident_factory.py      # Core logic for fake incident generation
 │   ├── templates/               # JSON/STIX base templates
+│   ├── incident_factory.py      # Core logic for synthetic incident generation
+│   ├── stix_exporter.py         # Stix format compatibility
 │   └── utils.py                 # Timestamping, ID generation, helpers
 │
 ├── exports/                     # Sample generated datasets
