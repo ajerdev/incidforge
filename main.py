@@ -25,6 +25,7 @@ def generate(
     format: str = typer.Option("json", help="Output format"),
     count: int = typer.Option(1, help="Number of incidents to generate"),
     noise: bool = typer.Option(False, help="Include random noisy events"),
+    export: bool = typer.Option(False, help="Export incidents to file"),
     correlated: bool = typer.Option(False, help="Generate correlated events")
 ):
     incidents = []
@@ -62,6 +63,21 @@ def generate(
         random.shuffle(incidents)
 
     print(json.dumps(incidents, indent=2))
+
+    if export:
+        from datetime import datetime
+        import os
+
+        os.makedirs("exports", exist_ok=True)
+
+        now = datetime.now().strftime("%Y%m%d_%H%M")
+        filename = f"exports/incidents_{now}_{count}{type}.json"
+
+        with open(filename, "w") as f:
+            json.dump(incidents, f, indent=2)
+
+        print(f"[bold green]✔ Incidents exported to:[/] {filename}")
+
 
 if __name__ == "__main__":
     #app()

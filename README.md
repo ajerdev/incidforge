@@ -35,6 +35,19 @@ pip install -r requirements.txt
 ```
 ---
 
+## 🔧 Command Options
+
+| Flag         | Description                                      | Default |
+|--------------|--------------------------------------------------|---------|
+| `--type`     | Type of incident to generate                     | phishing |
+| `--count`    | Number of incidents to generate                  | 1       |
+| `--noise`    | Include decoy/noisy events                       | False   |
+| `--export`   | Save incidents to a timestamped `.json` file     | False   |
+| `--correlated` | Simulate related events (e.g. phishing + brute force) | False |
+
+
+---
+
 ## 🧪 Example Usage
 
 ```bash
@@ -46,6 +59,10 @@ python main.py --type phishing --format json --count 7
 
 # Generate events with noise:
 python main.py --type malware --count 20 --noise
+
+# Generate 3 brute force events and export to file
+python main.py --type bruteforce --count 3 --export
+    #➜ Creates file like: exports/incidents_20250727_1745_3bruteforce.json
 ```
 
 ---
