@@ -1,4 +1,4 @@
-# 🛠️ IncidForge – Fake Incident Generator for SOC & SOAR Testing
+# 🛠️ IncidForge – Synthetic Incident Generator for SOC & SOAR Testing
 
 **IncidForge** is a lightweight Python-based tool designed to simulate cybersecurity incidents for testing and validation of SOC pipelines, SIEM parsing, and SOAR automation workflows.
 
@@ -39,34 +39,51 @@ pip install -r requirements.txt
 
 ```bash
 # Generate 5 phishing incidents in JSON format:
-python main.py generate --type phishing --format json --count 5
+python main.py --type phishing --count 5
 
-# Generate a correlated campaign (brute force + phishing):
-python main.py generate --type campaign --correlated true --count 10
+# Generate 5 phishing incidents (output will be in JSON format by default — the --format flag is not required at this time)
+python main.py --type phishing --format json --count 7
 
 # Generate events with noise:
-python main.py generate --type malware --noise true --count 20
+python main.py --type malware --count 20 --noise
 ```
 
 ---
 
-## 📝 Output Example
+## 🧾 Sample Output: Phishing + Noise Events
+
+Below is an example of a mixed output containing both a simulated phishing incident and a decoy (noise) event. This illustrates how realistic alerts can be blended with benign activity to simulate real-world SOC conditions.
 
 ```json
-{
-  "id": "INC-20250726-0012",
-  "type": "phishing",
-  "timestamp": "2025-07-26T14:35:22Z",
-  "source_ip": "185.133.111.24",
-  "target_user": "alice@acme.corp",
-  "subject": "Urgent: Reset Your Password",
-  "iocs": [
-    "malicious-site.biz",
-    "http://phish.link/reset"
-  ],
-  "mitre_tactics": ["Initial Access"],
-  "mitre_techniques": ["T1566.001"]
-}
+  {
+    "id": "INC-20250727-2022e5",
+    "type": "phishing",
+    "timestamp": "2025-07-27T16:52:10.874900Z",
+    "source_ip": "117.29.237.142",
+    "target_user": "user123@domain.com",
+    "subject": "Reset your password",
+    "iocs": [
+      "login-update.com"
+    ],
+    "mitre_tactics": [
+      "Initial Access"
+    ],
+    "mitre_techniques": [
+      "T1566.001"
+    ]
+  },
+  {
+    "type": "noise::login_success",
+    "description": "Benign login event from internal user",
+    "details": {
+      "user": "jsmith",
+      "host": "hr-laptop",
+      "resource": "vpn.acme.corp"
+    },
+    "id": "INC-20250727-1146c4",
+    "timestamp": "2025-07-27T16:52:10.875136Z",
+    "source_ip": "167.117.68.70"
+  }
 ```
 
 ---
@@ -84,6 +101,7 @@ incidforge/
 ├── examples/                    # Sample generated datasets
 │
 ├── tests/                       # Unit tests for key modules
+│   └── test_factory.py          # Pytest testing for incident generation
 │
 ├── main.py                      # CLI interface
 ├── requirements.txt
