@@ -62,7 +62,7 @@ python main.py --type malware --count 20 --noise
 
 # Generate 3 brute force events and export to file
 python main.py --type bruteforce --count 3 --export
-    output ➜ Creates file like: exports/incidents_20250727_1745_3bruteforce.json
+> ✔ Incidents exported to: exports/incidents_20250727_2010_3phishing.json
 ```
 
 ---
