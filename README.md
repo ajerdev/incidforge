@@ -62,7 +62,7 @@ python main.py --type malware --count 20 --noise
 
 # Generate 3 brute force events and export to file
 python main.py --type bruteforce --count 3 --export
-    #➜ Creates file like: exports/incidents_20250727_1745_3bruteforce.json
+    output ➜ Creates file like: exports/incidents_20250727_1745_3bruteforce.json
 ```
 
 ---
@@ -115,7 +115,7 @@ incidforge/
 │   ├── templates/               # JSON/STIX base templates
 │   └── utils.py                 # Timestamping, ID generation, helpers
 │
-├── examples/                    # Sample generated datasets
+├── exports/                    # Sample generated datasets
 │
 ├── tests/                       # Unit tests for key modules
 │   └── test_factory.py          # Pytest testing for incident generation
