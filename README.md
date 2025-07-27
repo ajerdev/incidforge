@@ -11,9 +11,10 @@ Whether you're a blue team engineer, SOAR developer, or simply want to stress-te
 - 🔄 **Generate fake incidents** (phishing, brute force, malware, etc.)
 - 🧱 **Structured output** in JSON (future implementation of STIX 2.1 format)
 - 🎭 **Noise injection**: add decoy or irrelevant events
+- 💾 **Export results** to file with dynamic filenames (timestamped & labeled)
 - 🔗 **Correlated event chains**: simulate full campaigns
 - 🧠 **MITRE ATT&CK mapped techniques** for realism
-- ⚙️ **Customizable via CLI** (argparse or Typer-based)
+- ⚙️ **Customizable via CLI** Typer-based
 
 ---
 
@@ -45,6 +46,18 @@ pip install -r requirements.txt
 | `--export`   | Save incidents to a timestamped `.json` file     | False   |
 | `--correlated` | Simulate related events (e.g. phishing + brute force) | False |
 
+#### Available values for `--type`:
+
+- `phishing`
+- `bruteforce`
+- `malware`
+- `ransomware`
+- `data_exfiltration`
+- `command_and_control`
+- `insider_threat`
+- `port_scanning`
+- `web_exploit`
+- `suspicious_powershell`
 
 ---
 
@@ -65,9 +78,7 @@ python main.py --type bruteforce --count 3 --export
 > ✔ Incidents exported to: exports/incidents_20250727_2010_3phishing.json
 ```
 
----
-
-## 🧾 Sample Output: Phishing + Noise Events
+### 🧾 Sample Output: Phishing + Noise Events
 
 Below is an example of a mixed output containing both a simulated phishing incident and a decoy (noise) event. This illustrates how realistic alerts can be blended with benign activity to simulate real-world SOC conditions.
 
@@ -115,7 +126,7 @@ incidforge/
 │   ├── templates/               # JSON/STIX base templates
 │   └── utils.py                 # Timestamping, ID generation, helpers
 │
-├── exports/                    # Sample generated datasets
+├── exports/                     # Sample generated datasets
 │
 ├── tests/                       # Unit tests for key modules
 │   └── test_factory.py          # Pytest testing for incident generation
@@ -124,13 +135,6 @@ incidforge/
 ├── requirements.txt
 └── README.md
 ```
-
----
-
-## 🧠 Design Philosophy
-
-**IncidForge** was built to provide SOC and SOAR teams with realistic, flexible, and reusable simulated data that mimics real-world incident patterns.  
-Its modular design makes it easy to extend, integrate, and customize for blue-team exercises and automation development.
 
 ---
 
