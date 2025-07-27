@@ -1,7 +1,23 @@
 import pytest
-from generator import incident_factory
 import re
 import ipaddress
+import sys
+import os
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+from generator.incident_factory import (
+    generate_phishing_incident,
+    generate_bruteforce_incident,
+    generate_malware_incident,
+    generate_ransomware_incident,
+    generate_data_exfiltration_incident,
+    generate_command_and_control_incident,
+    generate_insider_threat_incident,
+    generate_port_scanning_incident,
+    generate_web_exploit_incident,
+    generate_suspicious_powershell_incident
+)
+
 
 def is_valid_iso8601(timestamp: str) -> bool:
     pattern = r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?(\+\d{2}:\d{2})?Z"
@@ -15,7 +31,7 @@ def is_valid_ip(ip: str) -> bool:
         return False
 
 def test_generate_phishing_fields():
-    incident = incident_factory.generate_phishing_incident()
+    incident = generate_phishing_incident()
     
     assert incident["type"] == "phishing"
     assert "id" in incident
@@ -25,7 +41,7 @@ def test_generate_phishing_fields():
     assert incident["mitre_techniques"] == ["T1566.001"]
 
 def test_generate_bruteforce_fields():
-    incident = incident_factory.generate_bruteforce_incident()
+    incident = generate_bruteforce_incident()
     
     assert incident["type"] == "bruteforce"
     assert "username_attempted" in incident
@@ -33,7 +49,7 @@ def test_generate_bruteforce_fields():
     assert 1 <= incident["attempt_count"] <= 50
 
 def test_generate_malware_fields():
-    incident = incident_factory.generate_malware_incident()
+    incident = generate_malware_incident()
     
     assert incident["type"] == "malware"
     assert "malware_name" in incident
@@ -41,14 +57,14 @@ def test_generate_malware_fields():
     assert re.fullmatch(r"[a-f0-9]{32,}", incident["file_hash"])
 
 def test_generate_ransomware_fields():
-    incident = incident_factory.generate_ransomware_incident()
+    incident = generate_ransomware_incident()
     
     assert incident["type"] == "ransomware"
     assert isinstance(incident["encrypted_extensions"], list)
     assert incident["ransomware_family"] in ["LockBit", "Conti", "BlackCat", "REvil", "Clop"]
 
 def test_generate_data_exfiltration_fields():
-    incident = incident_factory.generate_data_exfiltration_incident()
+    incident = generate_data_exfiltration_incident()
 
     assert incident["type"] == "data_exfiltration"
     assert "protocol" in incident
@@ -57,7 +73,7 @@ def test_generate_data_exfiltration_fields():
     assert 0.1 <= incident["data_volume_mb"] <= 500
 
 def test_generate_command_and_control_fields():
-    incident = incident_factory.generate_command_and_control_incident()
+    incident = generate_command_and_control_incident()
 
     assert incident["id"].startswith("INC-")
     assert "infected_host" in incident
@@ -68,7 +84,7 @@ def test_generate_command_and_control_fields():
     assert incident["beacon_interval_sec"] in [10, 30, 60, 300, 900]
 
 def test_generate_insider_threat_fields():
-    incident = incident_factory.generate_insider_threat_incident()
+    incident = generate_insider_threat_incident()
 
     actions = [
         "accessed payroll database out of hours",
@@ -85,3 +101,36 @@ def test_generate_insider_threat_fields():
     assert incident["suspicious_action"] in actions
     assert "target_resource" in incident
     assert "justification_provided" in incident
+
+def test_generate_port_scanning_fields():
+    incident = generate_port_scanning_incident()
+
+    assert incident["type"] == "port_scanning"
+    assert is_valid_ip(incident["scanner_ip"])
+    assert is_valid_ip(incident["target_ip"])
+    assert isinstance(incident["scanned_ports"], list)
+    assert all(isinstance(port, int) and 0 < port < 65536 for port in incident["scanned_ports"])
+    assert incident["tool_used"] in ["nmap", "masscan", "zmap", "netcat", "angryIP"]
+    assert incident["scan_type"] in ["TCP SYN", "TCP Connect", "UDP", "Ping Sweep", "Stealth"]
+
+def test_generate_web_exploit_fields():
+    incident = generate_web_exploit_incident()
+
+    assert incident["type"] == "web_exploit"
+    assert is_valid_ip(incident["attacker_ip"])
+    assert incident["http_method"] in ["GET", "POST"]
+    assert isinstance(incident["payload"], str)
+    assert incident["exploit_type"] in [
+        "SQL Injection", "XSS", "Command Injection",
+        "Local File Inclusion", "Directory Traversal"
+    ]
+
+def test_generate_suspicious_powershell_fields():
+    incident = generate_suspicious_powershell_incident()
+
+    assert incident["type"] == "suspicious_powershell"
+    assert isinstance(incident["host"], str)
+    assert isinstance(incident["user"], str)
+    assert isinstance(incident["command"], str)
+    assert incident["parent_process"] in ["explorer.exe", "winword.exe", "outlook.exe", "cmd.exe", "teams.exe"]
+    assert incident["execution_context"] in ["user", "admin", "scheduled_task", "startup", "remote_session"]

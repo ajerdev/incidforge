@@ -8,7 +8,10 @@ from generator.incident_factory import (
     generate_ransomware_incident,
     generate_data_exfiltration_incident,
     generate_command_and_control_incident,
-    generate_insider_threat_incident
+    generate_insider_threat_incident,
+    generate_port_scanning_incident,
+    generate_web_exploit_incident,
+    generate_suspicious_powershell_incident
 )
 
 app = typer.Typer()
@@ -38,9 +41,15 @@ def generate(
             incident = generate_command_and_control_incident()
         elif type == "insider_threat":
             incident = generate_insider_threat_incident()
+        elif type == "port_scanning":
+            incident = generate_port_scanning_incident()
+        elif type == "web_exploit":
+            incident = generate_web_exploit_incident()
+        elif type == "suspicious_powershell":
+            incident = generate_suspicious_powershell_incident()
         else:
             print(f"[bold red]Incident type '{type}' not implemented yet.[/]")
-            return
+            return    
 
         incidents.append(incident)
 

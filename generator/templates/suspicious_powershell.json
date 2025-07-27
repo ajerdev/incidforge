@@ -1,0 +1,12 @@
+{
+  "id": "",
+  "type": "suspicious_powershell",
+  "timestamp": "",
+  "host": "",
+  "user": "",
+  "command": "",
+  "parent_process": "",
+  "execution_context": "",
+  "mitre_tactics": ["Execution", "Defense Evasion"],
+  "mitre_techniques": ["T1059.001", "T1562.001"]
+}

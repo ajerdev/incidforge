@@ -1,0 +1,12 @@
+{
+  "id": "",
+  "type": "port_scanning",
+  "timestamp": "",
+  "scanner_ip": "",
+  "target_ip": "",
+  "scanned_ports": [],
+  "tool_used": "",
+  "scan_type": "",
+  "mitre_tactics": ["Discovery"],
+  "mitre_techniques": ["T1046"]
+}
