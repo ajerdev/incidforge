@@ -44,9 +44,9 @@ pip install -r requirements.txt
 | `--count`    | Number of incidents to generate                  | 1       |
 | `--noise`    | Include decoy/noisy events                       | False   |
 | `--export`   | Save incidents to a timestamped `.json` file     | False   |
-| `--correlated` | Simulate related events (e.g. phishing + brute force) | False |
+| `--correlate`| Simulate related events (e.g. phishing + brute force) | False |
 
-#### Available values for `--type`:
+#### Available values for `--type` and `--correlate`:
 
 - `phishing`
 - `bruteforce`
@@ -80,6 +80,7 @@ python main.py --type bruteforce --count 3 --export
 #Generate 2 phishing events correlated with 2 data exfiltration
 python main.py --type phishing --count 2 --correlate data_exfiltration
 ```
+
 
 ### 🧾 Sample Output: Phishing + Correlated Exfiltration + Noise Events
 
@@ -187,11 +188,6 @@ This output demonstrates how **IncidForge** can blend meaningful alerts with har
   }
 ]
 ```
-
-### 🧾 Sample Output: Phishing + Noise Events
-
-Below is an example of a mixed output containing both a simulated phishing incident and a decoy (noise) event. This illustrates how realistic alerts can be blended with benign activity to simulate real-world SOC conditions.
-
 
 ---
 
