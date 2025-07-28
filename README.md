@@ -216,7 +216,7 @@ incidforge/
 
 ## 🧪 Future Features
 
-- [ ] GUI mode or Web UI with FastAPI  
+- [ ] GUI mode or Web UI  
 - [ ] Integration with MITRE ATT&CK API  
 - [ ] Generation of timeline-based incidents  
 - [ ] Simulated alert correlation engine (automatically generate coherent attack chains across multiple techniques and stages)
