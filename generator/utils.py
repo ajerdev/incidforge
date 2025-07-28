@@ -19,6 +19,11 @@ def generate_random_ip() -> str:
 def generate_fake_hash(length=32) -> str:
     return ''.join(random.choices('abcdef0123456789', k=length))
 
+def generate_random_email():
+    usernames = ["alice", "bob", "charlie", "david", "eva", "frank", "grace", "henry", "irene", "john"]
+    domains = ["example.com", "corp.local", "domain.com", "acme.corp", "internal.net"]
+    return f"{random.choice(usernames)}@{random.choice(domains)}"
+
 def load_template(name: str) -> dict:
     with open(os.path.join(TEMPLATES_DIR, f"{name}.json"), 'r') as f:
         return json.load(f)

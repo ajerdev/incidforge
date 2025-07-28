@@ -3,6 +3,45 @@ import uuid
 from datetime import datetime, timezone
 from generator.utils import generate_incident_id, get_current_timestamp, generate_random_ip, generate_fake_hash, load_template
 
+def generate_incident_by_type(incident_type: str, ip: str = None, user: str = None) -> dict:
+    """
+    Generates an incident of the specified type. Optionally accepts an IP and user
+    to inject for correlated incidents.
+
+    Args:
+        incident_type (str): The type of incident to generate.
+        ip (str, optional): IP address to use for correlation.
+        user (str, optional): User to use for correlation.
+
+    Returns:
+        dict: Generated incident.
+    """
+    generators = {
+        "phishing": generate_phishing_incident,
+        "bruteforce": generate_bruteforce_incident,
+        "malware": generate_malware_incident,
+        "ransomware": generate_ransomware_incident,
+        "data_exfiltration": generate_data_exfiltration_incident,
+        "command_and_control": generate_command_and_control_incident,
+        "insider_threat": generate_insider_threat_incident,
+        "port_scanning": generate_port_scanning_incident,
+        "web_exploit": generate_web_exploit_incident,
+        "suspicious_powershell": generate_suspicious_powershell_incident
+    }
+
+    if incident_type not in generators:
+        raise ValueError(f"Unknown incident type: {incident_type}")
+
+    incident = generators[incident_type]()
+
+    # Inject shared IP/user if provided for correlation
+    if ip:
+        incident["source_ip"] = ip
+    if user and "target_user" in incident:
+        incident["target_user"] = user
+
+    return incident
+
 def generate_noise_event():
     templates = load_template("noise")
 
@@ -12,7 +51,7 @@ def generate_noise_event():
     template["source_ip"] = generate_random_ip()
     return template
 
-def generate_phishing_incident():
+def generate_phishing_incident(ip=None, user=None):
     template = load_template("phishing")
 
     subjects = [
@@ -24,14 +63,14 @@ def generate_phishing_incident():
 
     template["id"] = generate_incident_id()
     template["timestamp"] = get_current_timestamp()
-    template["source_ip"] = generate_random_ip()
-    template["target_user"] = random.choice(target_users)
+    template["source_ip"] = ip or generate_random_ip()
+    template["target_user"] = user or random.choice(target_users)
     template["subject"] = random.choice(subjects)
     template["iocs"] = [random.choice(domains)]
 
     return template
 
-def generate_bruteforce_incident():
+def generate_bruteforce_incident(ip=None, user=None):
     template = load_template("bruteforce")
 
     usernames = ["admin", "root", "jsmith", "alice"]
@@ -40,15 +79,15 @@ def generate_bruteforce_incident():
 
     template["id"] = generate_incident_id()
     template["timestamp"] = get_current_timestamp()
-    template["source_ip"] = generate_random_ip()
-    template["target_user"] = random.choice(target_users)
+    template["source_ip"] = ip or generate_random_ip()
+    template["target_user"] = user or random.choice(target_users)
     template["username_attempted"] = random.choice(usernames)
     template["login_endpoint"] = random.choice(endpoints)
     template["attempt_count"] = random.randint(5, 20)
 
     return template
 
-def generate_malware_incident():
+def generate_malware_incident(ip=None, user=None):
     template = load_template("malware")
 
     malware_names = ["Emotet", "TrickBot", "FormBook", "AgentTesla", "Remcos"]
@@ -57,7 +96,7 @@ def generate_malware_incident():
 
     template["id"] = generate_incident_id()
     template["timestamp"] = get_current_timestamp()
-    template["source_ip"] = generate_random_ip()
+    template["source_ip"] = ip or generate_random_ip()
     template["affected_host"] = random.choice(hosts)
     template["malware_name"] = random.choice(malware_names)
     template["file_path"] = random.choice(file_paths)
@@ -65,7 +104,7 @@ def generate_malware_incident():
 
     return template
 
-def generate_ransomware_incident():
+def generate_ransomware_incident(ip=None, user=None):
     template = load_template("ransomware")
 
     families = ["LockBit", "Conti", "BlackCat", "REvil", "Clop"]
@@ -83,7 +122,7 @@ def generate_ransomware_incident():
 
     template["id"] = generate_incident_id()
     template["timestamp"] = get_current_timestamp()
-    template["source_ip"] = generate_random_ip()
+    template["source_ip"] = ip or generate_random_ip()
     template["infected_host"] = random.choice(infected_hosts)
     template["ransomware_family"] = random.choice(families)
     template["encrypted_extensions"] = random.sample(extensions, k=2)
@@ -93,7 +132,7 @@ def generate_ransomware_incident():
 
     return template
 
-def generate_data_exfiltration_incident():
+def generate_data_exfiltration_incident(ip=None, user=None):
     template = load_template("data_exfiltration")
 
     data_types = ["PII", "credentials", "intellectual property", "HR records", "financial reports"]
@@ -102,7 +141,7 @@ def generate_data_exfiltration_incident():
 
     template["id"] = generate_incident_id()
     template["timestamp"] = get_current_timestamp()
-    template["source_ip"] = generate_random_ip()
+    template["source_ip"] = ip or generate_random_ip()
     template["source_host"] = random.choice(hosts)
     template["destination_ip"] = generate_random_ip()
     template["protocol"] = random.choice(protocols)
@@ -111,7 +150,7 @@ def generate_data_exfiltration_incident():
 
     return template
 
-def generate_command_and_control_incident():
+def generate_command_and_control_incident(ip=None, user=None):
     template = load_template("command_and_control")
 
     infected_hosts = ["host-dev01", "hr-win11", "vpn-compromised", "ws-corp-02"]
@@ -121,14 +160,14 @@ def generate_command_and_control_incident():
     template["id"] = generate_incident_id()
     template["timestamp"] = get_current_timestamp()
     template["infected_host"] = random.choice(infected_hosts)
-    template["c2_ip"] = generate_random_ip()
+    template["c2_ip"] = ip or generate_random_ip()
     template["c2_domain"] = random.choice(c2_domains)
     template["protocol"] = random.choice(protocols)
     template["beacon_interval_sec"] = random.choice([10, 30, 60, 300, 900])
 
     return template
 
-def generate_insider_threat_incident():
+def generate_insider_threat_incident(ip=None, user=None):
     template = load_template("insider_threat")
 
     usernames = ["jdoe", "hr-manager", "backup-admin", "it_support", "intern-23"]
@@ -149,7 +188,7 @@ def generate_insider_threat_incident():
 
     template["id"] = generate_incident_id()
     template["timestamp"] = get_current_timestamp()
-    template["username"] = random.choice(usernames)
+    template["username"] = user or random.choice(usernames)
     template["user_role"] = random.choice(roles)
     template["suspicious_action"] = random.choice(actions)
     template["target_resource"] = random.choice(resources)
@@ -157,7 +196,7 @@ def generate_insider_threat_incident():
 
     return template
 
-def generate_port_scanning_incident():
+def generate_port_scanning_incident(ip=None, user=None):
     template = load_template("port_scanning")
 
     tools = ["nmap", "masscan", "zmap", "netcat", "angryIP"]
@@ -166,7 +205,7 @@ def generate_port_scanning_incident():
 
     template["id"] = generate_incident_id()
     template["timestamp"] = get_current_timestamp()
-    template["scanner_ip"] = generate_random_ip()
+    template["scanner_ip"] =ip or generate_random_ip()
     template["target_ip"] = generate_random_ip()
     template["scanned_ports"] = scanned_ports
     template["tool_used"] = random.choice(tools)
@@ -174,7 +213,7 @@ def generate_port_scanning_incident():
 
     return template
 
-def generate_web_exploit_incident():
+def generate_web_exploit_incident(ip=None, user=None):
     template = load_template("web_exploit")
 
     endpoints = ["/login", "/search", "/admin", "/product?id=13", "/api/user"]
@@ -197,7 +236,7 @@ def generate_web_exploit_incident():
 
     template["id"] = generate_incident_id()
     template["timestamp"] = get_current_timestamp()
-    template["attacker_ip"] = generate_random_ip()
+    template["attacker_ip"] = ip or generate_random_ip()
     template["vulnerable_endpoint"] = random.choice(endpoints)
     template["http_method"] = random.choice(methods)
     template["payload"] = random.choice(payloads)
@@ -224,7 +263,7 @@ def generate_suspicious_powershell_incident():
     template["id"] = generate_incident_id()
     template["timestamp"] = get_current_timestamp()
     template["host"] = random.choice(hosts)
-    template["user"] = random.choice(users)
+    template["user"] = user or random.choice(users)
     template["command"] = random.choice(commands)
     template["parent_process"] = random.choice(parents)
     template["execution_context"] = random.choice(contexts)

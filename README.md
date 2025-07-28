@@ -76,28 +76,89 @@ python main.py --type malware --count 20 --noise
 # Generate 3 brute force events and export to file
 python main.py --type bruteforce --count 3 --export
 > ✔ Incidents exported to: exports/incidents_20250727_2010_3phishing.json
+
+#Generate 2 phishing events correlated with 2 data exfiltration
+python main.py --type phishing --count 2 --correlate data_exfiltration
 ```
 
-### 🧾 Sample Output: Phishing + Noise Events
+### 🧾 Sample Output: Phishing + Correlated Exfiltration + Noise Events
 
-Below is an example of a mixed output containing both a simulated phishing incident and a decoy (noise) event. This illustrates how realistic alerts can be blended with benign activity to simulate real-world SOC conditions.
+This example showcases a realistic output combining:
+
+- **Phishing incidents** as the primary attack vector  
+- **Correlated data exfiltration events** that reuse shared attributes (e.g., IPs or users) to simulate attack chaining  
+- **Noise events** (benign activity) to mimic real-world SOC signal-to-noise conditions  
+
+This output demonstrates how **IncidForge** can blend meaningful alerts with harmless events to emulate complex threat scenarios for **detection engineering** and **blue team training**.
 
 ```json
+[
   {
-    "id": "INC-20250727-2022e5",
+    "id": "INC-20250728-bd6d62",
     "type": "phishing",
-    "timestamp": "2025-07-27T16:52:10.874900Z",
-    "source_ip": "117.29.237.142",
-    "target_user": "user123@domain.com",
-    "subject": "Reset your password",
+    "timestamp": "2025-07-28T00:15:20.175666Z",
+    "source_ip": "235.215.89.51",
+    "target_user": "alice@acme.corp",
+    "subject": "Invoice overdue",
     "iocs": [
-      "login-update.com"
+      "malicious-site.biz"
     ],
     "mitre_tactics": [
       "Initial Access"
     ],
     "mitre_techniques": [
       "T1566.001"
+    ]
+  },
+  {
+    "id": "INC-20250728-d16144",
+    "type": "data_exfiltration",
+    "timestamp": "2025-07-28T00:15:20.175784Z",
+    "source_ip": "235.215.89.51",
+    "source_host": "rdp-win10-3",
+    "destination_ip": "239.193.250.67",
+    "protocol": "HTTP",
+    "data_type": "PII",
+    "data_volume_mb": 232.88,
+    "mitre_tactics": [
+      "Exfiltration"
+    ],
+    "mitre_techniques": [
+      "T1041"
+    ]
+  },
+  {
+    "id": "INC-20250728-63e947",
+    "type": "phishing",
+    "timestamp": "2025-07-28T00:15:20.175877Z",
+    "source_ip": "239.142.179.28",
+    "target_user": "user123@domain.com",
+    "subject": "Invoice overdue",
+    "iocs": [
+      "malicious-site.biz"
+    ],
+    "mitre_tactics": [
+      "Initial Access"
+    ],
+    "mitre_techniques": [
+      "T1566.001"
+    ]
+  },
+  {
+    "id": "INC-20250728-788446",
+    "type": "data_exfiltration",
+    "timestamp": "2025-07-28T00:15:20.175949Z",
+    "source_ip": "239.142.179.28",
+    "source_host": "legal-srv01",
+    "destination_ip": "75.52.86.149",
+    "protocol": "HTTPS",
+    "data_type": "intellectual property",
+    "data_volume_mb": 143.32,
+    "mitre_tactics": [
+      "Exfiltration"
+    ],
+    "mitre_techniques": [
+      "T1041"
     ]
   },
   {
@@ -108,11 +169,29 @@ Below is an example of a mixed output containing both a simulated phishing incid
       "host": "hr-laptop",
       "resource": "vpn.acme.corp"
     },
-    "id": "INC-20250727-1146c4",
-    "timestamp": "2025-07-27T16:52:10.875136Z",
-    "source_ip": "167.117.68.70"
+    "id": "INC-20250728-43e3c9",
+    "timestamp": "2025-07-28T00:15:20.176036Z",
+    "source_ip": "181.71.192.61"
+  },
+  {
+    "type": "noise::http_200",
+    "description": "Successful HTTP request",
+    "details": {
+      "url": "/index.html",
+      "method": "GET",
+      "status": 200
+    },
+    "id": "INC-20250728-fc14f7",
+    "timestamp": "2025-07-28T00:15:20.176103Z",
+    "source_ip": "224.41.225.119"
   }
+]
 ```
+
+### 🧾 Sample Output: Phishing + Noise Events
+
+Below is an example of a mixed output containing both a simulated phishing incident and a decoy (noise) event. This illustrates how realistic alerts can be blended with benign activity to simulate real-world SOC conditions.
+
 
 ---
 

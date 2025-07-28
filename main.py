@@ -3,6 +3,8 @@ import json
 from rich import print
 import random 
 
+from generator.utils import generate_random_email, generate_random_ip
+
 from generator.incident_factory import (
     generate_phishing_incident,
     generate_bruteforce_incident,
@@ -14,7 +16,8 @@ from generator.incident_factory import (
     generate_port_scanning_incident,
     generate_web_exploit_incident,
     generate_suspicious_powershell_incident,
-    generate_noise_event
+    generate_noise_event,
+    generate_incident_by_type
 )
 
 # app = typer.Typer()
@@ -26,42 +29,26 @@ def generate(
     count: int = typer.Option(1, help="Number of incidents to generate"),
     noise: bool = typer.Option(False, help="Include random noisy events"),
     export: bool = typer.Option(False, help="Export incidents to file"),
-    correlated: bool = typer.Option(False, help="Generate correlated events")
+    correlate: str = typer.Option(None, help="Second incident type to correlate with the primary one")
 ):
     incidents = []
 
     for _ in range(count):
-        if type == "phishing":
-            incident = generate_phishing_incident()
-        elif type == "bruteforce":
-            incident = generate_bruteforce_incident()
-        elif type == "malware":
-            incident = generate_malware_incident()
-        elif type == "ransomware":
-            incident = generate_ransomware_incident()
-        elif type == "data_exfiltration":
-            incident = generate_data_exfiltration_incident()
-        elif type == "command_and_control":
-            incident = generate_command_and_control_incident()
-        elif type == "insider_threat":
-            incident = generate_insider_threat_incident()
-        elif type == "port_scanning":
-            incident = generate_port_scanning_incident()
-        elif type == "web_exploit":
-            incident = generate_web_exploit_incident()
-        elif type == "suspicious_powershell":
-            incident = generate_suspicious_powershell_incident()
-        else:
-            print(f"[bold red]Incident type '{type}' not implemented yet.[/]")
-            return    
-
+        incident = generate_incident_by_type(type)
         incidents.append(incident)
+
+        if correlate:
+            shared_ip = incident.get("source_ip", generate_random_ip())
+            shared_user = incident.get("target_user", generate_random_email())
+            correlated_incident = generate_incident_by_type(correlate, ip=shared_ip, user=shared_user)
+            incidents.append(correlated_incident)
 
     if noise:
         noise_events = [generate_noise_event() for _ in range(random.randint(1, count))]
         incidents.extend(noise_events)
         random.shuffle(incidents)
 
+    incidents.sort(key=lambda x: x["timestamp"])
     print(json.dumps(incidents, indent=2))
 
     if export:
